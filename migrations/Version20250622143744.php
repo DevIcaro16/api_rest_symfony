@@ -21,7 +21,18 @@ final class Version20250622143744 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE cars (id SERIAL NOT NULL, model VARCHAR(50) NOT NULL, brand VARCHAR(50) NOT NULL, manufacture_year DATE NOT NULL, model_year DATE NOT NULL, km DOUBLE PRECISION NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))
+            CREATE TABLE cars 
+            (
+                id SERIAL NOT NULL, 
+                model VARCHAR(50) NOT NULL, 
+                brand VARCHAR(50) NOT NULL, 
+                manufacture_year INT NOT NULL, 
+                model_year INT NOT NULL, 
+                km DOUBLE PRECISION NOT NULL, 
+                created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, 
+                updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, 
+                PRIMARY KEY(id)
+            )
         SQL);
         $this->addSql(<<<'SQL'
             COMMENT ON COLUMN cars.created_at IS '(DC2Type:datetime_immutable)'
@@ -34,9 +45,9 @@ final class Version20250622143744 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql(<<<'SQL'
-            CREATE SCHEMA public
-        SQL);
+        // $this->addSql(<<<'SQL'
+        //     CREATE SCHEMA public
+        // SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE cars
         SQL);

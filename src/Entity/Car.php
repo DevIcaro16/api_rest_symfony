@@ -21,11 +21,11 @@ class Car
     #[ORM\Column(length: 50)]
     private ?string $brand = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $manufacture_year = null;
+    #[ORM\Column]
+    private ?int $manufacture_year = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $model_year = null;
+    #[ORM\Column]
+    private ?int $model_year = null;
 
     #[ORM\Column]
     private ?float $km = null;
@@ -65,24 +65,24 @@ class Car
         return $this;
     }
 
-    public function getManufactureYear(): ?\DateTime
+    public function getManufactureYear(): ?int
     {
         return $this->manufacture_year;
     }
 
-    public function setManufactureYear(\DateTime $manufacture_year): static
+    public function setManufactureYear(int $manufacture_year): static
     {
         $this->manufacture_year = $manufacture_year;
 
         return $this;
     }
 
-    public function getModelYear(): ?\DateTime
+    public function getModelYear(): ?int
     {
         return $this->model_year;
     }
 
-    public function setModelYear(\DateTime $model_year): static
+    public function setModelYear(int $model_year): static
     {
         $this->model_year = $model_year;
 
