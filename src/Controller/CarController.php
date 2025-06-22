@@ -33,10 +33,10 @@ final class CarController extends AbstractController
     {
         try {
 
-            if (!is_int($idCar)) {
+            if (!filter_var($idCar, FILTER_VALIDATE_INT)) {
                 return $this->json([
                     'success' => false,
-                    'message' => 'O parâmetro idCar precisa ser um número inteiro válido.',
+                    'message' => 'O parâmetro idCar precisa ser um número inteiro válido!',
                 ], 400);
             }
 
@@ -72,8 +72,12 @@ final class CarController extends AbstractController
 
         try {
 
-            $data = $request->request->all();
-
+            if ($request->headers->get('Content-Type') == 'application/json') {
+                // $data = json_decode($request->getContent(), true);
+                $data = $request->toArray();
+            } else {
+                $data = $request->request->all();
+            }
 
             $requiredFields = ['brand', 'model', 'manufacture_year', 'model_year', 'km'];
             $camposNulos = [];
@@ -101,8 +105,7 @@ final class CarController extends AbstractController
             ) {
                 return $this->json([
                     'success' => false,
-                    'message' => 'Os campos relacionados ao ano de fabricação/modelo/km devem ser do números válidos ',
-                    'campos' => $camposNulos
+                    'message' => 'Os campos relacionados ao ano de fabricação/modelo/km devem ser números válidos ',
                 ], 400);
             }
 
@@ -145,6 +148,14 @@ final class CarController extends AbstractController
     ): JsonResponse {
 
         try {
+
+            if (!filter_var($idCar, FILTER_VALIDATE_INT)) {
+                return $this->json([
+                    'success' => false,
+                    'message' => 'O parâmetro idCar precisa ser um número inteiro válido!',
+                ], 400);
+            }
+
             $idCar = (int) $idCar;
             $car = $carRepository->find($idCar);
 
@@ -158,9 +169,10 @@ final class CarController extends AbstractController
             // método HTTP
             $method = $request->getMethod(); // PUT/PATCH 
 
-
-            $data = json_decode($request->getContent(), true);
-            if ($data === null) {
+            if ($request->headers->get('Content-Type') == 'application/json') {
+                // $data = json_decode($request->getContent(), true);
+                $data = $request->toArray();
+            } else {
                 $data = $request->request->all();
             }
 
@@ -217,5 +229,42 @@ final class CarController extends AbstractController
         }
     }
 
+    #[Route('/cars/{idCar}', name: 'car_delete', methods: ['DELETE'])]
+    public function delete($idCar, CarRepository $carRepository): JsonResponse
+    {
+        try {
+
+            if (!filter_var($idCar, FILTER_VALIDATE_INT)) {
+                return $this->json([
+                    'success' => false,
+                    'message' => 'O parâmetro idCar precisa ser um número inteiro válido!',
+                ], 400);
+            }
+
+            $idCar = (int) $idCar;
+            $car = $carRepository->find($idCar);
+
+            if (!$car) {
+                return $this->json([
+                    'success' => false,
+                    'message' => 'Carro NÃO encontrado!',
+                ], 404);
+            }
+
+            $carRepository->remove($car, true);
+
+            return $this->json([
+                'success' => true,
+                'message' => 'Carro deletado!',
+            ], 200);
+
+        } catch (Exception $e) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Erro ao deletar Carro!',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 
 }
