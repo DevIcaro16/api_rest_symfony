@@ -119,6 +119,6 @@ src/
 
 Desenvolvido por **Ícaro Rebouças**  
 📧 [icaroip15@gmail.com](mailto:icaroip15@gmail.com)  
-🔗 [linkedin.com/in/ícaro-rebouças-0b1998297](www.linkedin.com/in/ícaro-rebouças-0b1998297)
+🔗 [www.linkedin.com/in/ícaro-rebouças-0b1998297](www.linkedin.com/in/ícaro-rebouças-0b1998297)
 
 ---
