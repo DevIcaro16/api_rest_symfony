@@ -109,11 +109,49 @@ src/
   ├── Controller/        # Controladores da API
   ├── Entity/            # Entidades do Doctrine
   ├── Repository/        # Repositórios customizados
+  ├── DTO/              # Data Transfer Objects
+  ├── Services/          # Camada de serviços
   └── ...
 ```
 
 ---
 
+## 🏗️ Arquitetura Service + DTO
+
+### 📋 CarDTO (Data Transfer Object)
+
+O `CarDTO` implementa a lógica de validação e transferência de dados:
+
+#### **Validações Implementadas:**
+- **Campos Obrigatórios**: Todos os campos são obrigatórios
+- **Tipos de Dados**:
+  - `brand` e `model`: Strings não vazias
+  - `manufacture_year` e `model_year`: Inteiros de 4 dígitos
+  - `km`: Float maior ou igual a zero
+
+
+
+### 🔧 CarService (Camada de Serviços)
+
+O `CarService` centraliza toda a lógica de negócio:
+
+#### **Métodos Principais:**
+- `showCar($id)`: Busca carro por ID com validação
+- `createCarFromArray($data)`: Cria carro com validação via DTO
+- `updateCar($id, $data, $method)`: Atualiza carro (PUT/PATCH)
+- `deleteCar($id)`: Remove carro com validação
+
+#### **Tratamento de Erros:**
+- Validação de IDs numéricos
+- Verificação de existência de registros
+- Validação de dados via DTO
+- Exceções específicas para cada cenário
+
+#### **Diferença entre PUT e PATCH:**
+- **PUT**: Valida todos os campos obrigatórios
+- **PATCH**: Valida apenas os campos enviados
+
+---
 
 ## 🧑‍💻 Autor
 
